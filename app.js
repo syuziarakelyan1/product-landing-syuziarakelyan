@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeaderScroll();
     initScrollAnimations();
     initActiveNavHighlight();
+    initCTAModal();
 });
 
 /**
@@ -218,4 +219,86 @@ function initLazyLoading() {
             img.src = img.dataset.src;
         });
     }
+}
+
+/**
+ * CTA Modal Functionality
+ */
+function initCTAModal() {
+    const modal = document.getElementById('cta-modal');
+    if (!modal) return;
+    
+    const backdrop = modal.querySelector('.modal-backdrop');
+    const closeBtn = modal.querySelector('.modal-close');
+    const ctaButtons = document.querySelectorAll('.btn-primary:not([type="submit"])');
+    
+    // Open modal function
+    function openModal() {
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus first input
+        const firstInput = modal.querySelector('input');
+        if (firstInput) {
+            setTimeout(() => firstInput.focus(), 100);
+        }
+    }
+    
+    // Close modal function
+    function closeModal() {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        
+        // Reset form
+        const form = modal.querySelector('form');
+        if (form) {
+            form.reset();
+            clearFormErrors(form);
+        }
+    }
+    
+    // Attach open modal to CTA buttons (except pricing buttons)
+    ctaButtons.forEach(btn => {
+        // Only attach to hero and main CTA buttons
+        if (btn.closest('.hero') || btn.closest('.cta')) {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal();
+            });
+        }
+    });
+    
+    // Close modal on close button click
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+    
+    // Close modal on backdrop click
+    if (backdrop) {
+        backdrop.addEventListener('click', closeModal);
+    }
+    
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+}
+
+/**
+ * Clear form error states
+ */
+function clearFormErrors(form) {
+    const inputs = form.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.classList.remove('error');
+    });
+    
+    const errorMessages = form.querySelectorAll('.error-message');
+    errorMessages.forEach(msg => {
+        msg.textContent = '';
+    });
 }
