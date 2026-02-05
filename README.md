@@ -1,64 +1,76 @@
 # ARTIS Museum - Landing Page
 
-A modern, visually appealing, and user-friendly landing page for a museum focused on art, history, and culture.
+A modern, responsive product showcase landing page for a museum focused on art, history, and culture.
 
-## Overview
+## Live Demo
 
-ARTIS Museum is a world-class institution dedicated to preserving and celebrating human creativity and cultural heritage. This landing page serves as the digital front door, welcoming visitors and providing essential information about exhibitions, collections, events, and visiting details.
+[View Live Demo](https://syuziarakelyan1.github.io/product-landing-syuziarakelyan/) *(Deploy to GitHub Pages to activate)*
 
 ## Features
 
-- **Responsive Design** - Optimized for all devices (desktop, tablet, mobile)
-- **Modern UI/UX** - Clean, elegant design with smooth animations
-- **Accessibility** - Built with accessibility best practices
-- **Performance** - Lightweight and fast-loading
+### Version 1.0 (Base)
+- **Hero Section** - Product name, tagline, and CTA buttons
+- **Exhibitions Showcase** - 3 featured exhibition cards with images
+- **Benefits Section** - 3 key benefits with emoji icons
+- **Testimonials** - 2 visitor reviews with author info
+- **Pricing Section** - 3 membership tiers (Individual, Family, Patron)
+- **Events Section** - Upcoming museum events
+- **Visit Information** - Location, hours, and admission details
+- **Footer** - Social links and copyright
+
+### Merged Features (UX Enhancements)
+- **Sticky Navbar** - Fixed navigation with active section highlighting
+- **Smooth Scrolling** - Animated scroll to section on nav link click
+- **CTA Modal** - Subscription form with name and email fields
+- **Form Validation** - Required field and email format validation
+- **Modal Controls** - Close via button, backdrop click, or Escape key
+
+### Upcoming Features (Open PR)
+- Gallery section with filterable images
+- Lightbox overlay with keyboard navigation
+
+## How to Run Locally
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/syuziarakelyan1/product-landing-syuziarakelyan.git
+   ```
+
+2. Navigate to the project folder:
+   ```bash
+   cd product-landing-syuziarakelyan
+   ```
+
+3. Open `index.html` in your browser, or use a local server:
+   ```bash
+   # Using Python
+   python -m http.server 8000
+   
+   # Using VS Code Live Server extension
+   # Right-click index.html → Open with Live Server
+   ```
+
+4. Visit `http://localhost:8000` in your browser
 
 ## Project Structure
 
 ```
-/
-├── index.html          # Main HTML file
-├── styles.css          # CSS styles
+product-landing-syuziarakelyan/
+├── index.html          # Main HTML file (semantic structure)
+├── styles.css          # CSS styles (responsive design)
 ├── app.js              # JavaScript functionality
 ├── assets/
-│   ├── images/         # Exhibition and hero images
+│   ├── images/         # Image assets
 │   └── icons/          # Icon assets
-└── README.md           # This file
+└── README.md           # Project documentation
 ```
 
-## Sections (v1)
+## Tech Stack
 
-1. **Hero** - Captivating introduction with call-to-action
-2. **Exhibitions** - Featured current and upcoming exhibitions (3 cards)
-3. **Benefits** - Why visit ARTIS (3 benefits with icons)
-4. **Testimonials** - Visitor reviews (2 testimonials)
-5. **Pricing** - Membership tiers (Individual, Family, Patron)
-6. **Events** - Upcoming events and programs
-7. **Visit** - Location, hours, and admission information
-8. **Footer** - Social links and copyright
-
-## Getting Started
-
-1. Clone the repository
-2. Open `index.html` in your browser
-3. For development, use a local server (e.g., Live Server extension in VS Code)
-
-## Customization
-
-### Colors
-Edit CSS variables in `styles.css`:
-```css
-:root {
-    --color-primary: #1a1a2e;
-    --color-accent: #c9a962;
-    /* ... */
-}
-```
-
-### Images
-Replace placeholder images in `assets/images/`:
-- `hero-bg.jpg` - Hero section background
-- `exhibition-1.jpg`, `exhibition-2.jpg`, `exhibition-3.jpg` - Exhibition cards
+- HTML5 (semantic tags)
+- CSS3 (custom properties, flexbox, grid)
+- Vanilla JavaScript (ES6+)
+- Google Fonts (Playfair Display, Inter)
 
 ## Browser Support
 
@@ -67,10 +79,10 @@ Replace placeholder images in `assets/images/`:
 - Safari (latest)
 - Edge (latest)
 
+## Team
+
+- **Syuzi Arakelyan** - [@syuziarakelyan1](https://github.com/syuziarakelyan1)
+
 ## License
 
 This project is for educational and portfolio purposes.
-
----
-
-Built with care for art, history, and culture enthusiasts.
