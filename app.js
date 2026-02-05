@@ -230,6 +230,7 @@ function initCTAModal() {
     
     const backdrop = modal.querySelector('.modal-backdrop');
     const closeBtn = modal.querySelector('.modal-close');
+    const form = modal.querySelector('#cta-form');
     const ctaButtons = document.querySelectorAll('.btn-primary:not([type="submit"])');
     
     // Open modal function
@@ -286,6 +287,38 @@ function initCTAModal() {
             closeModal();
         }
     });
+    
+    // Form validation and submission
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (validateForm(form)) {
+                // Form is valid - show success and close
+                showFormSuccess(form);
+                setTimeout(() => {
+                    closeModal();
+                }, 2000);
+            }
+        });
+        
+        // Real-time validation on blur
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('blur', () => {
+                validateField(input);
+            });
+            
+            // Clear error on input
+            input.addEventListener('input', () => {
+                if (input.classList.contains('error')) {
+                    input.classList.remove('error');
+                    const errorMsg = input.parentElement.querySelector('.error-message');
+                    if (errorMsg) errorMsg.textContent = '';
+                }
+            });
+        });
+    }
 }
 
 /**
@@ -301,4 +334,105 @@ function clearFormErrors(form) {
     errorMessages.forEach(msg => {
         msg.textContent = '';
     });
+}
+
+/**
+ * Validate entire form
+ */
+function validateForm(form) {
+    const inputs = form.querySelectorAll('input[required]');
+    let isValid = true;
+    
+    inputs.forEach(input => {
+        if (!validateField(input)) {
+            isValid = false;
+        }
+    });
+    
+    return isValid;
+}
+
+/**
+ * Validate a single field
+ */
+function validateField(input) {
+    const value = input.value.trim();
+    const type = input.type;
+    const name = input.name;
+    const errorMsg = input.parentElement.querySelector('.error-message');
+    
+    // Clear previous error
+    input.classList.remove('error');
+    if (errorMsg) errorMsg.textContent = '';
+    
+    // Required check
+    if (input.required && !value) {
+        setFieldError(input, errorMsg, `${capitalizeFirst(name)} is required`);
+        return false;
+    }
+    
+    // Email validation
+    if (type === 'email' && value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+            setFieldError(input, errorMsg, 'Please enter a valid email address');
+            return false;
+        }
+    }
+    
+    // Name validation (at least 2 characters)
+    if (name === 'name' && value && value.length < 2) {
+        setFieldError(input, errorMsg, 'Name must be at least 2 characters');
+        return false;
+    }
+    
+    return true;
+}
+
+/**
+ * Set error state on field
+ */
+function setFieldError(input, errorMsg, message) {
+    input.classList.add('error');
+    if (errorMsg) {
+        errorMsg.textContent = message;
+    }
+}
+
+/**
+ * Capitalize first letter
+ */
+function capitalizeFirst(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+/**
+ * Show form success message
+ */
+function showFormSuccess(form) {
+    const content = form.closest('.modal-content');
+    if (!content) return;
+    
+    // Hide form
+    form.style.display = 'none';
+    
+    // Show success message
+    const successDiv = document.createElement('div');
+    successDiv.className = 'form-success';
+    successDiv.innerHTML = `
+        <div class="success-icon">✓</div>
+        <h3>Thank You!</h3>
+        <p>You've been successfully subscribed to our newsletter.</p>
+    `;
+    
+    content.appendChild(successDiv);
+    
+    // Reset after modal closes
+    setTimeout(() => {
+        form.style.display = '';
+        form.reset();
+        if (successDiv.parentElement) {
+            successDiv.remove();
+        }
+    }, 2500);
 }
