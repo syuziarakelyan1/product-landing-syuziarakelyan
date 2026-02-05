@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initHeaderScroll();
     initScrollAnimations();
+    initActiveNavHighlight();
 });
 
 /**
@@ -108,11 +109,44 @@ function initHeaderScroll() {
 }
 
 /**
+ * Active Navigation Highlight
+ * Highlights the current section in the navbar while scrolling
+ */
+function initActiveNavHighlight() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    
+    if (!sections.length || !navLinks.length) return;
+    
+    function highlightActiveSection() {
+        const scrollPosition = window.scrollY + 100;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', debounce(highlightActiveSection, 10));
+    highlightActiveSection(); // Initial check
+}
+
+/**
  * Scroll Animations using Intersection Observer
  */
 function initScrollAnimations() {
     const animatedElements = document.querySelectorAll(
-        '.exhibition-card, .collection-item, .event-card, .section-header'
+        '.exhibition-card, .benefit-item, .testimonial-card, .pricing-card, .event-card, .section-header'
     );
     
     if (!animatedElements.length) return;
