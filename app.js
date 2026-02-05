@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initHeaderScroll();
     initScrollAnimations();
+    initGalleryFilters();
     initLightbox();
 });
 
@@ -185,6 +186,46 @@ function initLazyLoading() {
             img.src = img.dataset.src;
         });
     }
+}
+
+/**
+ * Gallery Filter Functionality
+ */
+function initGalleryFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    if (!filterButtons.length || !galleryItems.length) return;
+    
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active button
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Get filter category
+            const filter = btn.dataset.filter;
+            
+            // Filter gallery items
+            galleryItems.forEach(item => {
+                const category = item.dataset.category;
+                
+                if (filter === 'all' || category === filter) {
+                    item.classList.remove('hidden');
+                    // Animate in
+                    item.style.opacity = '0';
+                    item.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                        item.style.opacity = '1';
+                        item.style.transform = 'scale(1)';
+                    }, 50);
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        });
+    });
 }
 
 /**
